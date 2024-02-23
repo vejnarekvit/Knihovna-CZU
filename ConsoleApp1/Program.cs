@@ -120,28 +120,8 @@ namespace ConsoleApp1
                             // delete acc
                         }
                         break;
-
                 }
             } while (user_response != 'e');
         }
-    }
-
-    public class Person(string first_name, string last_name, DateOnly birthday, bool status)
-    {
-        public string First_name { get; } = first_name;
-        public string Last_name { get; } = last_name;
-        public DateOnly Birthday { get; } = birthday;
-        public bool Status { get; } = status;
-        public List<Book> Borrowed_books { get; } = new();
-
-    }
-
-    public class Book(string authors_first_name, string authors_last_name, string book_name, DateOnly book_release, int book_count)
-    {
-        public string Authors_first_name { get; } = authors_first_name;
-        public string Authors_last_name { get; } = authors_last_name;
-        public string Book_name { get; } = book_name;
-        public DateOnly Book_release { get; } = book_release;
-        public int Book_count { get; set; } = book_count;
     }
 }
