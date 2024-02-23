@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp1
+namespace LibrarySystem
 {
     public class Person(string first_name, string last_name, DateOnly birthday, bool status)
     {

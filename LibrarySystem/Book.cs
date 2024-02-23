@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp1
+namespace LibrarySystem
 {
     public class Book(string authors_first_name, string authors_last_name, string book_name, DateOnly book_release, int book_count)
     {

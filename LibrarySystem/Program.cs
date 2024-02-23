@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace ConsoleApp1
+namespace LibrarySystem
 {
     internal class Program
     {
