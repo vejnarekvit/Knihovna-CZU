@@ -6,13 +6,14 @@ namespace LibrarySystem
     {
         static void Main(string[] args)
         {
+            DatabaseHelper.InitializeDatabase();
             // setup person and availible books
             var p1 = new Person("Vít", "Vejnárek", new DateOnly(2003,9,12), true);
             var books = new List<Book>();
-            books.Add(new Book("Petr", "Bezruč", "Slezské písně", new DateOnly(2000, 12, 12), 22));
-            books.Add(new Book("Karel", "Čapek", "Válka s mloky", new DateOnly(2006, 5, 4), 2));
-            books.Add(new Book("Karel", "Čapek", "Krakatit", new DateOnly(2007, 10, 10), 15));
-            books.Add(new Book("Viktor", "Dyk", "Krysař", new DateOnly(1989, 9, 10), 7));
+            books.Add(new Book("Petr", "Bezruč", "Slezské písně", "Balada", new DateOnly(2000, 12, 12), 22));
+            books.Add(new Book("Karel", "Čapek", "Válka s mloky", "Sci-fi", new DateOnly(2006, 5, 4), 2));
+            books.Add(new Book("Karel", "Čapek", "Krakatit", "Sci-fi", new DateOnly(2007, 10, 10), 15));
+            books.Add(new Book("Viktor", "Dyk", "Krysař", "novela", new DateOnly(1989, 9, 10), 7));
             char user_response;
 
 
