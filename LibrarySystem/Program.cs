@@ -7,6 +7,7 @@ namespace LibrarySystem
         static void Main(string[] args)
         {
             DatabaseHelper.InitializeDatabase();
+            Login();
             // setup person and availible books
             var p1 = new Person("Vít", "Vejnárek", new DateOnly(2003,9,12), true);
             var books = new List<Book>();
@@ -123,6 +124,77 @@ namespace LibrarySystem
                         break;
                 }
             } while (user_response != 'e');
+        }
+
+        public static void Login()
+        {
+            char user_response;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("Vítek's Library");
+                Console.WriteLine("------------------------");
+                Console.WriteLine("Login [l]");
+                Console.WriteLine("Register new account [r]");
+                Console.WriteLine("End program [e]");
+                Console.Write("Type action: ");
+                user_response = char.ToLower(Console.ReadKey().KeyChar);
+
+                switch(user_response)
+                {
+                    case 'l':
+                        Console.Clear();
+                        Console.WriteLine("Vítek's Library");
+                        Console.WriteLine("------------------------");
+                        Console.Write("Name: ");
+                        var user_response_login_name = Console.ReadLine();
+
+                        // check if user exists in database
+
+                        Console.Clear();
+                        Console.WriteLine("Vítek's Library");
+                        Console.WriteLine("------------------------");
+                        Console.Write("Password: ");
+                        string user_response_login_password = ReadLineWithMask();
+
+                        // porovnat a prihlasit nebo rict naser si
+                        break;
+                    case 'r':
+                        // registration
+                        // name, pass, again pass
+                        break;
+                }
+
+            } while (user_response != 'e');
+        }
+
+        public static string ReadLineWithMask()
+        {
+            string pass = "";
+            ConsoleKeyInfo key;
+
+            do
+            {
+                key = Console.ReadKey(true);
+
+                if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
+                {
+                    pass += key.KeyChar;
+                    Console.Write("*");
+                }
+                else
+                {
+                    if (key.Key == ConsoleKey.Backspace && pass.Length > 0)
+                    {
+                        pass = pass.Substring(0, (pass.Length - 1));
+                        Console.Write("\b \b");
+                    }
+                }
+            }
+            // Stops Receving Keys Once Enter is Pressed
+            while (key.Key != ConsoleKey.Enter);
+
+            return pass;
         }
     }
 }
