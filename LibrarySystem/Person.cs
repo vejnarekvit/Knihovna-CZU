@@ -6,13 +6,20 @@ using System.Threading.Tasks;
 
 namespace LibrarySystem
 {
-    public class Person(string first_name, string last_name, DateOnly birthday, bool status)
+    public class Person
     {
-        public string First_name { get; } = first_name;
-        public string Last_name { get; } = last_name;
-        public DateOnly Birthday { get; } = birthday;
-        public bool Status { get; } = status;
+        public string First_name { get; }
+        public string Last_name { get; }
+        public DateOnly Birthday { get; }
+        public bool Status { get; }
         public List<Book> Borrowed_books { get; } = new();
 
+        public Person(string first_name, string last_name, DateOnly birthday, bool status)
+        {
+            First_name = first_name;
+            Last_name = last_name;
+            Birthday = birthday;
+            Status = status;
+        }
     }
 }
