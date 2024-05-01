@@ -1,0 +1,174 @@
+\doxysection{Library\+System.\+Database\+Helper Class Reference}
+\hypertarget{class_library_system_1_1_database_helper}{}\label{class_library_system_1_1_database_helper}\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_library_system_1_1_database_helper_ade4483e5c8b09d73900bca63e1580cec}{Initialize\+Database}} ()
+\item 
+static SQLite\+Connection \mbox{\hyperlink{class_library_system_1_1_database_helper_af6d553a5c6f6c0b4eb1d4c8dcb3a4cb4}{Get\+Connection}} ()
+\item 
+static List$<$ \mbox{\hyperlink{class_library_system_1_1_book}{Book}} $>$ \mbox{\hyperlink{class_library_system_1_1_database_helper_a02a71d3a0ca1ddf66696b0e9183020aa}{Get\+All\+Books}} ()
+\item 
+static List$<$ \mbox{\hyperlink{class_library_system_1_1_book}{Book}} $>$ \mbox{\hyperlink{class_library_system_1_1_database_helper_a871bf56aee953e61a737c236c73d694f}{Get\+All\+Available\+Books}} ()
+\item 
+static List$<$ \mbox{\hyperlink{class_library_system_1_1_person}{Person}} $>$ \mbox{\hyperlink{class_library_system_1_1_database_helper_a53d58a445f02709845d41e60576e4ae9}{Get\+All\+Users}} ()
+\item 
+static List$<$ \mbox{\hyperlink{class_library_system_1_1_person}{Person}} $>$ \mbox{\hyperlink{class_library_system_1_1_database_helper_a68fa8a43b7439c5af5239b62f77c1678}{Get\+All\+Customers}} ()
+\item 
+static string \mbox{\hyperlink{class_library_system_1_1_database_helper_a3fae8158ccfb1cabb65e85568b0473e2}{Hash\+Password}} (string password)
+\item 
+static bool \mbox{\hyperlink{class_library_system_1_1_database_helper_af30888ac7504866276bde562c093f98e}{is\+Email\+Unique}} (string email)
+\item 
+static void \mbox{\hyperlink{class_library_system_1_1_database_helper_a821216f3197098353beeb13d0e72a705}{Borrow\+Book}} (int user\+Id, int book\+Id)
+\item 
+static void \mbox{\hyperlink{class_library_system_1_1_database_helper_a51185d69efa0cec4f88604984da4848d}{Return\+Book}} (int user\+Id, int book\+Id)
+\item 
+static void \mbox{\hyperlink{class_library_system_1_1_database_helper_ac83adc061e21ee3edff17ddb0b193c52}{Delete\+Book}} (int book\+Id)
+\item 
+static List$<$ \mbox{\hyperlink{class_library_system_1_1_book}{Book}} $>$ \mbox{\hyperlink{class_library_system_1_1_database_helper_acddf0f1877bc5a64eaed8ddf6e470dd3}{Get\+Borrowed\+Books}} (int user\+Id)
+\item 
+static void \mbox{\hyperlink{class_library_system_1_1_database_helper_a4ca2dc7878fb7bc3597644b022338f4e}{Delete\+User}} (int user\+Id)
+\item 
+static void \mbox{\hyperlink{class_library_system_1_1_database_helper_a81212f134a3f75c93f40f8601194185e}{Update\+User\+Status}} (int user\+Id, int status)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_library_system_1_1_database_helper_a5bf6a28ea372ae10d85955e1315e51b0}{Create\+Books\+Table}} (SQLite\+Connection connection)
+\item 
+static void \mbox{\hyperlink{class_library_system_1_1_database_helper_a833ab0baeabdb1763c9537e28355fb9b}{Create\+Users\+Table}} (SQLite\+Connection connection)
+\item 
+static void \mbox{\hyperlink{class_library_system_1_1_database_helper_a77bb3e691075e0ae023b95420e45648d}{Create\+User\+Books\+Table}} (SQLite\+Connection connection)
+\item 
+static void \mbox{\hyperlink{class_library_system_1_1_database_helper_a1a27c5fbd115653cf182620fe98f5cc5}{Execute\+Sql}} (SQLite\+Connection connection, string sql)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static string \mbox{\hyperlink{class_library_system_1_1_database_helper_a7baec149280a23d323810e531ffd8019}{connection\+\_\+string}} = @"{}Data Source=..\textbackslash{}..\textbackslash{}..\textbackslash{}data\textbackslash{}library.\+db"{}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_library_system_1_1_database_helper_a821216f3197098353beeb13d0e72a705}\label{class_library_system_1_1_database_helper_a821216f3197098353beeb13d0e72a705} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!BorrowBook@{BorrowBook}}
+\index{BorrowBook@{BorrowBook}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{BorrowBook()}{BorrowBook()}}
+{\footnotesize\ttfamily static void Library\+System.\+Database\+Helper.\+Borrow\+Book (\begin{DoxyParamCaption}\item[{int}]{user\+Id,  }\item[{int}]{book\+Id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_library_system_1_1_database_helper_a5bf6a28ea372ae10d85955e1315e51b0}\label{class_library_system_1_1_database_helper_a5bf6a28ea372ae10d85955e1315e51b0} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!CreateBooksTable@{CreateBooksTable}}
+\index{CreateBooksTable@{CreateBooksTable}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{CreateBooksTable()}{CreateBooksTable()}}
+{\footnotesize\ttfamily static void Library\+System.\+Database\+Helper.\+Create\+Books\+Table (\begin{DoxyParamCaption}\item[{SQLite\+Connection}]{connection }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\Hypertarget{class_library_system_1_1_database_helper_a77bb3e691075e0ae023b95420e45648d}\label{class_library_system_1_1_database_helper_a77bb3e691075e0ae023b95420e45648d} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!CreateUserBooksTable@{CreateUserBooksTable}}
+\index{CreateUserBooksTable@{CreateUserBooksTable}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{CreateUserBooksTable()}{CreateUserBooksTable()}}
+{\footnotesize\ttfamily static void Library\+System.\+Database\+Helper.\+Create\+User\+Books\+Table (\begin{DoxyParamCaption}\item[{SQLite\+Connection}]{connection }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\Hypertarget{class_library_system_1_1_database_helper_a833ab0baeabdb1763c9537e28355fb9b}\label{class_library_system_1_1_database_helper_a833ab0baeabdb1763c9537e28355fb9b} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!CreateUsersTable@{CreateUsersTable}}
+\index{CreateUsersTable@{CreateUsersTable}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{CreateUsersTable()}{CreateUsersTable()}}
+{\footnotesize\ttfamily static void Library\+System.\+Database\+Helper.\+Create\+Users\+Table (\begin{DoxyParamCaption}\item[{SQLite\+Connection}]{connection }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\Hypertarget{class_library_system_1_1_database_helper_ac83adc061e21ee3edff17ddb0b193c52}\label{class_library_system_1_1_database_helper_ac83adc061e21ee3edff17ddb0b193c52} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!DeleteBook@{DeleteBook}}
+\index{DeleteBook@{DeleteBook}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{DeleteBook()}{DeleteBook()}}
+{\footnotesize\ttfamily static void Library\+System.\+Database\+Helper.\+Delete\+Book (\begin{DoxyParamCaption}\item[{int}]{book\+Id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_library_system_1_1_database_helper_a4ca2dc7878fb7bc3597644b022338f4e}\label{class_library_system_1_1_database_helper_a4ca2dc7878fb7bc3597644b022338f4e} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!DeleteUser@{DeleteUser}}
+\index{DeleteUser@{DeleteUser}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{DeleteUser()}{DeleteUser()}}
+{\footnotesize\ttfamily static void Library\+System.\+Database\+Helper.\+Delete\+User (\begin{DoxyParamCaption}\item[{int}]{user\+Id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_library_system_1_1_database_helper_a1a27c5fbd115653cf182620fe98f5cc5}\label{class_library_system_1_1_database_helper_a1a27c5fbd115653cf182620fe98f5cc5} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!ExecuteSql@{ExecuteSql}}
+\index{ExecuteSql@{ExecuteSql}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{ExecuteSql()}{ExecuteSql()}}
+{\footnotesize\ttfamily static void Library\+System.\+Database\+Helper.\+Execute\+Sql (\begin{DoxyParamCaption}\item[{SQLite\+Connection}]{connection,  }\item[{string}]{sql }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\Hypertarget{class_library_system_1_1_database_helper_a871bf56aee953e61a737c236c73d694f}\label{class_library_system_1_1_database_helper_a871bf56aee953e61a737c236c73d694f} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!GetAllAvailableBooks@{GetAllAvailableBooks}}
+\index{GetAllAvailableBooks@{GetAllAvailableBooks}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{GetAllAvailableBooks()}{GetAllAvailableBooks()}}
+{\footnotesize\ttfamily static List$<$ \mbox{\hyperlink{class_library_system_1_1_book}{Book}} $>$ Library\+System.\+Database\+Helper.\+Get\+All\+Available\+Books (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_library_system_1_1_database_helper_a02a71d3a0ca1ddf66696b0e9183020aa}\label{class_library_system_1_1_database_helper_a02a71d3a0ca1ddf66696b0e9183020aa} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!GetAllBooks@{GetAllBooks}}
+\index{GetAllBooks@{GetAllBooks}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{GetAllBooks()}{GetAllBooks()}}
+{\footnotesize\ttfamily static List$<$ \mbox{\hyperlink{class_library_system_1_1_book}{Book}} $>$ Library\+System.\+Database\+Helper.\+Get\+All\+Books (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_library_system_1_1_database_helper_a68fa8a43b7439c5af5239b62f77c1678}\label{class_library_system_1_1_database_helper_a68fa8a43b7439c5af5239b62f77c1678} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!GetAllCustomers@{GetAllCustomers}}
+\index{GetAllCustomers@{GetAllCustomers}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{GetAllCustomers()}{GetAllCustomers()}}
+{\footnotesize\ttfamily static List$<$ \mbox{\hyperlink{class_library_system_1_1_person}{Person}} $>$ Library\+System.\+Database\+Helper.\+Get\+All\+Customers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_library_system_1_1_database_helper_a53d58a445f02709845d41e60576e4ae9}\label{class_library_system_1_1_database_helper_a53d58a445f02709845d41e60576e4ae9} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!GetAllUsers@{GetAllUsers}}
+\index{GetAllUsers@{GetAllUsers}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{GetAllUsers()}{GetAllUsers()}}
+{\footnotesize\ttfamily static List$<$ \mbox{\hyperlink{class_library_system_1_1_person}{Person}} $>$ Library\+System.\+Database\+Helper.\+Get\+All\+Users (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_library_system_1_1_database_helper_acddf0f1877bc5a64eaed8ddf6e470dd3}\label{class_library_system_1_1_database_helper_acddf0f1877bc5a64eaed8ddf6e470dd3} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!GetBorrowedBooks@{GetBorrowedBooks}}
+\index{GetBorrowedBooks@{GetBorrowedBooks}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{GetBorrowedBooks()}{GetBorrowedBooks()}}
+{\footnotesize\ttfamily static List$<$ \mbox{\hyperlink{class_library_system_1_1_book}{Book}} $>$ Library\+System.\+Database\+Helper.\+Get\+Borrowed\+Books (\begin{DoxyParamCaption}\item[{int}]{user\+Id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_library_system_1_1_database_helper_af6d553a5c6f6c0b4eb1d4c8dcb3a4cb4}\label{class_library_system_1_1_database_helper_af6d553a5c6f6c0b4eb1d4c8dcb3a4cb4} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!GetConnection@{GetConnection}}
+\index{GetConnection@{GetConnection}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{GetConnection()}{GetConnection()}}
+{\footnotesize\ttfamily static SQLite\+Connection Library\+System.\+Database\+Helper.\+Get\+Connection (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_library_system_1_1_database_helper_a3fae8158ccfb1cabb65e85568b0473e2}\label{class_library_system_1_1_database_helper_a3fae8158ccfb1cabb65e85568b0473e2} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!HashPassword@{HashPassword}}
+\index{HashPassword@{HashPassword}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{HashPassword()}{HashPassword()}}
+{\footnotesize\ttfamily static string Library\+System.\+Database\+Helper.\+Hash\+Password (\begin{DoxyParamCaption}\item[{string}]{password }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_library_system_1_1_database_helper_ade4483e5c8b09d73900bca63e1580cec}\label{class_library_system_1_1_database_helper_ade4483e5c8b09d73900bca63e1580cec} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!InitializeDatabase@{InitializeDatabase}}
+\index{InitializeDatabase@{InitializeDatabase}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{InitializeDatabase()}{InitializeDatabase()}}
+{\footnotesize\ttfamily static void Library\+System.\+Database\+Helper.\+Initialize\+Database (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_library_system_1_1_database_helper_af30888ac7504866276bde562c093f98e}\label{class_library_system_1_1_database_helper_af30888ac7504866276bde562c093f98e} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!isEmailUnique@{isEmailUnique}}
+\index{isEmailUnique@{isEmailUnique}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{isEmailUnique()}{isEmailUnique()}}
+{\footnotesize\ttfamily static bool Library\+System.\+Database\+Helper.\+is\+Email\+Unique (\begin{DoxyParamCaption}\item[{string}]{email }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_library_system_1_1_database_helper_a51185d69efa0cec4f88604984da4848d}\label{class_library_system_1_1_database_helper_a51185d69efa0cec4f88604984da4848d} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!ReturnBook@{ReturnBook}}
+\index{ReturnBook@{ReturnBook}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{ReturnBook()}{ReturnBook()}}
+{\footnotesize\ttfamily static void Library\+System.\+Database\+Helper.\+Return\+Book (\begin{DoxyParamCaption}\item[{int}]{user\+Id,  }\item[{int}]{book\+Id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_library_system_1_1_database_helper_a81212f134a3f75c93f40f8601194185e}\label{class_library_system_1_1_database_helper_a81212f134a3f75c93f40f8601194185e} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!UpdateUserStatus@{UpdateUserStatus}}
+\index{UpdateUserStatus@{UpdateUserStatus}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{UpdateUserStatus()}{UpdateUserStatus()}}
+{\footnotesize\ttfamily static void Library\+System.\+Database\+Helper.\+Update\+User\+Status (\begin{DoxyParamCaption}\item[{int}]{user\+Id,  }\item[{int}]{status }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_library_system_1_1_database_helper_a7baec149280a23d323810e531ffd8019}\label{class_library_system_1_1_database_helper_a7baec149280a23d323810e531ffd8019} 
+\index{LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}!connection\_string@{connection\_string}}
+\index{connection\_string@{connection\_string}!LibrarySystem.DatabaseHelper@{LibrarySystem.DatabaseHelper}}
+\doxysubsubsection{\texorpdfstring{connection\_string}{connection\_string}}
+{\footnotesize\ttfamily string Library\+System.\+Database\+Helper.\+connection\+\_\+string = @"{}Data Source=..\textbackslash{}..\textbackslash{}..\textbackslash{}data\textbackslash{}library.\+db"{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Library\+System/\mbox{\hyperlink{_database_helper_8cs}{Database\+Helper.\+cs}}\end{DoxyCompactItemize}
