@@ -9,6 +9,9 @@ namespace LibrarySystem
 {
     public class Book
     {
+        /*
+        tato třída representuje strukturu knihy
+        */
         public string Authors_first_name { get; }
         public string Authors_last_name { get; }
         public string Book_name { get; }
@@ -24,12 +27,14 @@ namespace LibrarySystem
             Genre = genre;
             Book_release_year = book_release_year;
         }
+
+        // Tato metoda přidá do databáze knihu, je to navrženo tak, abych to mohl používat takto: book.AddBookToDatabas(connection). Atributy vezme sama ze sebe (this)
         public void AddBookToDatabase(SQLiteConnection connection)
         {
-            // SQL command to insert a new book into the books table
+            // SQL pro insert dat do databaze
             string sql = @"INSERT INTO books (authors_first_name, authors_last_name, book_name, genre, book_release) VALUES (@AuthorsFirstName, @AuthorsLastName, @BookName, @Genre, @BookRelease);";
 
-            // Creating the command and adding parameters to avoid SQL injection
+            // vytvoření commandu, přidání parametrů a execute commandu
             using (var command = new SQLiteCommand(sql, connection))
             {
                 command.Parameters.AddWithValue("@AuthorsFirstName", this.Authors_first_name);
@@ -38,7 +43,6 @@ namespace LibrarySystem
                 command.Parameters.AddWithValue("@Genre", this.Genre);
                 command.Parameters.AddWithValue("@BookRelease", this.Book_release_year);
 
-                // Execute the insert command
                 command.ExecuteNonQuery();
             }
         }

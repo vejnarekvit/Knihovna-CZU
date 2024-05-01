@@ -10,24 +10,26 @@ namespace LibrarySystem
 {
     public static class UserManager
     {
+        // Tato třída zajištujě vytvoření uživatele, ke kterému budu mít přístup pořád, zde se uloží do CurrentUser přihlášený uživatel
         public static Person? CurrentUser { get; private set; }
 
+
+        // Metoda na login
         public static void Login(string email, string password)
         {
             string sql = "SELECT id, first_name, last_name, status, password FROM users WHERE email = @Email";
 
             using (var connection = DatabaseHelper.GetConnection())
             {
-                // Create a command object
                 using (var command = new SQLiteCommand(sql, connection))
                 {
-                    // Add the email parameter to the command
                     command.Parameters.AddWithValue("@Email", email);
 
                     using (var reader = command.ExecuteReader())
                     {
                         if (reader.Read())
                         {
+                            // vytvořím dve promenne s hesly k porovnaní
                             string storedPasswordHash = reader["password"].ToString();
                             string inputPasswordHash = DatabaseHelper.HashPassword(password);
 
@@ -38,7 +40,6 @@ namespace LibrarySystem
                                 int status = Convert.ToInt32(reader["status"]);
                                 int ID = Convert.ToInt32(reader["id"].ToString());
 
-                                // Assuming Person constructor takes these parameters
                                 var loggedUser = new Person(firstName, lastName, status, email);
                                 loggedUser.ID = ID;
                                 CurrentUser = loggedUser;
@@ -63,7 +64,7 @@ namespace LibrarySystem
             }
         }
 
-
+        // odhlášení uživatele
         public static void Logout()
         {
             CurrentUser = null;
@@ -71,6 +72,7 @@ namespace LibrarySystem
             Console.WriteLine("User logged out.");
         }
 
+        // registrace uživatele s heslem
         public static void Register(Person user, string password)
         {
             using (var connection = DatabaseHelper.GetConnection())

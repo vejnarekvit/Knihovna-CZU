@@ -9,6 +9,7 @@ namespace LibrarySystem
 {
     public class Person
     {
+        // tato třída reprezentuje uživatele
         public string First_name { get; }
         public string Last_name { get; }
         public int Status { get; }
@@ -23,6 +24,7 @@ namespace LibrarySystem
             Email = email;
         }
 
+        // metoda na přidání uživatele do databáze (stačí potom jenom person.AddPersonToDatabase(conn, pass)) - posílá se rovnou zahashovane heslo
         public void AddPersonToDatabase(SQLiteConnection connection, string password)
         {
             string sql = @"

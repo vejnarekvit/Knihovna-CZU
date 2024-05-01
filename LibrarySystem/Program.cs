@@ -13,15 +13,12 @@ namespace LibrarySystem
     {
         static void Main(string[] args)
         {
-            /*
-                DB actions
-                book.AddBookToDatabase(connection)
-                DatabaseHelper.GetAllBooks();
-                person.AddPersonToDatabase(connection);
-                DatabaseHelper.GetAllUsers();
-            */
+            // Inicializace databáze
             DatabaseHelper.InitializeDatabase();
+            
+            // autorizace uživatele
             Auth();
+
             var user = UserManager.CurrentUser;
             var people = DatabaseHelper.GetAllUsers();
             
@@ -35,12 +32,13 @@ namespace LibrarySystem
                 Console.WriteLine("Press any key to continue...");
                 Console.ReadKey();
 
+                // zde dle statusu se vybere, která hlavní metoda aplikace se spustí
                 if (user.Status == 0)
                 {
-                    UserStatus0Actions();
+                    CustomerActions();
                 } else if (user.Status == 1)
                 {
-                    UserStatus1Actions();
+                    LibrarianActions();
                 } else
                 {
                     Console.WriteLine("Your Status has wrong value, please contact an administrator.");
@@ -51,7 +49,7 @@ namespace LibrarySystem
             }
         }
 
-        public static void UserStatus0Actions()
+        public static void CustomerActions()
         {
             var books = DatabaseHelper.GetAllBooks();
             var availableBooks = DatabaseHelper.GetAllAvailableBooks();
@@ -74,10 +72,12 @@ namespace LibrarySystem
                 switch (user_response)
                 {
                     case 'b':
-                        // Borrow the book
+                        // Vypůjčení knihy
                         Console.Clear();
                         Console.WriteLine("Books ready to borrow");
                         Console.WriteLine("-------------------------");
+
+                        // tady dělám list IDček a rovnou se potom ptám, že jestli zadal neco co neni ID jakekoliv knihy z vyberu, tak smula
                         List<int> availableBooksId = new List<int>();
                         availableBooks = DatabaseHelper.GetAllAvailableBooks();
                         foreach (Book book in availableBooks)
@@ -90,26 +90,30 @@ namespace LibrarySystem
                         Console.WriteLine("(To get back press any button except the books)");
                         Console.Write("Which of these book?: ");
 
-                        // Try parse to check if users response is number
+                        // pokus o parse
                         var user_response_borrow = Console.ReadLine();
                         if (int.TryParse(user_response_borrow, out int user_response_borrow_value) == false)
                         {
                             break;
                         }
 
-                        // create integer from users response
+                        // vytvoreni integeru z toho co zadal
                         int user_response_borrow_integer = int.Parse(user_response_borrow);
                         if (availableBooksId.Contains(user_response_borrow_integer))
                         {
+                            // metoda co vytvori zaznam v user_books
                             DatabaseHelper.BorrowBook(user.ID, user_response_borrow_integer);
                         }
                         break;
                     case 'g':
-                        // Give back the book
+                        // vrácení knihy do knihovny
                         Console.Clear();
                         Console.WriteLine("Return the book");
                         Console.WriteLine("-------------------------");
+                        // metoda co rovnou vybere pujcene knihy
                         List<Book> BooksToReturn = DatabaseHelper.GetBorrowedBooks(user.ID);
+
+                        // tady dělám list IDček a rovnou se potom ptám, že jestli zadal neco co neni ID jakekoliv knihy z vyberu, tak smula
                         List<int> returnBooksId = new List<int>();
 
                         foreach (var book in BooksToReturn)
@@ -120,22 +124,23 @@ namespace LibrarySystem
                         Console.WriteLine("(To get back press any button except the books)");
                         Console.Write("Which of these book you want to return?: ");
 
-                        // Try parse to check if users response is number
+                        // Pokus o parse jestli je to integer vubec
                         var user_response_return = Console.ReadLine();
                         if (int.TryParse(user_response_return, out int user_response_return_value) == false)
                         {
                             break;
                         }
 
-                        // create integer from users response
+                        // vytvoreni integeru
                         int user_response_return_integer = int.Parse(user_response_return);
                         if (returnBooksId.Contains(user_response_return_integer))
                         {
+                            // volani metody ktera smaze zaznam s pujcenim
                             DatabaseHelper.ReturnBook(user.ID, user_response_return_integer);
                         }
                         break;
                     case 'i':
-                        // Show my profile information
+                        // Zobrazení informací o ucte (jmeno, prijmeni, email, status a pujcene knihy)
                         Console.Clear();
                         Console.WriteLine("Profile information");
                         Console.WriteLine("-------------------------");
@@ -156,7 +161,7 @@ namespace LibrarySystem
                         Console.ReadKey();
                         break;
                     case 'd':
-                        // Delete my profile
+                        // Smazání profilu
                         Console.Clear();
                         Console.WriteLine("Delete profile");
                         Console.WriteLine("-------------------------");
@@ -173,7 +178,7 @@ namespace LibrarySystem
                                 break;
                             } else
                             {
-                                // delete profile from database and exit
+                                // Nejdriv logout pak delete user by ID
                                 UserManager.Logout();
                                 DatabaseHelper.DeleteUser(user.ID);
                                 break;
@@ -184,7 +189,7 @@ namespace LibrarySystem
             } while (user_response != 'e' && UserManager.CurrentUser != null);
         }
 
-        public static void UserStatus1Actions()
+        public static void LibrarianActions()
         {
             var books = DatabaseHelper.GetAllBooks();
             char user_response;
@@ -207,7 +212,7 @@ namespace LibrarySystem
                 switch (user_response)
                 {
                     case 'b':
-                        // Show available books
+                        // Ukaž dostupné knihy (tedy ještě nepůjčené knihy)
                         Console.Clear();
                         Console.WriteLine("Books available books");
                         Console.WriteLine("-------------------------");
@@ -223,7 +228,7 @@ namespace LibrarySystem
                         
                         break;
                     case 'a':
-                        // add book to database
+                        // Přidat knihu do databáze
                         Console.Clear();
                         Console.WriteLine("Vítek's Library");
                         Console.WriteLine("------------------------");
@@ -322,7 +327,7 @@ namespace LibrarySystem
 
                         break;
                     case 'd':
-                        // delete book from database (only available books can be deleted)
+                        // Odstranení knihy z DB podle DB ID ktery si vybere uzivatel
                         Console.Clear();
                         Console.WriteLine("Choose book to be deleted");
                         Console.WriteLine("-------------------------");
@@ -352,7 +357,7 @@ namespace LibrarySystem
 
                         break;
                     case 's':
-                        // change status of customers
+                        // Zmena statusu uzivatele, ktery ma status na 0 tedy zakaznik
                         Console.Clear();
                         Console.WriteLine("Change status of user");
                         Console.WriteLine("-------------------------");
@@ -375,7 +380,7 @@ namespace LibrarySystem
                         {
                             Console.WriteLine($"Select only existing user. Press any key to continue...");
                             Console.ReadKey();
-                            break; //user_response_user_to_update_integer will be used
+                            break;
                         }
                         Console.WriteLine("");
                         Console.WriteLine("Choose status (0 - customer, 1 - librarian)");
@@ -395,7 +400,7 @@ namespace LibrarySystem
 
                         break;
                     case 'l':
-                        // show all customers
+                        // Zobrazení všech zákazníků
                         Console.Clear();
                         Console.WriteLine("List of customers");
                         Console.WriteLine("-------------------------");
@@ -412,6 +417,8 @@ namespace LibrarySystem
             } while (user_response != 'e' && UserManager.CurrentUser != null);
         }
 
+
+        // Tato metoda zařizuje vytvoření účtu a přihlášení
         public static void Auth()
         {
             char user_response;
@@ -429,13 +436,12 @@ namespace LibrarySystem
                 switch(user_response)
                 {
                     case 'l':
+                        // Přihlášení uživatele
                         Console.Clear();
                         Console.WriteLine("Vítek's Library");
                         Console.WriteLine("------------------------");
                         Console.Write("E-mail: ");
                         var user_response_login_email = Console.ReadLine();
-
-                        // check if user exists in database
 
                         Console.Clear();
                         Console.WriteLine("Vítek's Library");
@@ -447,7 +453,7 @@ namespace LibrarySystem
 
                         break;
                     case 'r':
-                        // registration
+                        // Registrace nového uživatele
                         Console.Clear();
                         Console.WriteLine("Vítek's Library");
                         Console.WriteLine("------------------------");
@@ -562,6 +568,8 @@ namespace LibrarySystem
             } while (user_response != 'e' && UserManager.CurrentUser == null);
         }
 
+
+        // tato metoda zajišťuje, aby v inputu, když se zadává heslo, nebylo to heslo vidět a místo něho se vypisovaly *
         public static string ReadLineWithMask()
         {
             string pass = "";
@@ -585,19 +593,16 @@ namespace LibrarySystem
                     }
                 }
             }
-            // Stops Receving Keys Once Enter is Pressed
             while (key.Key != ConsoleKey.Enter);
-
             return pass;
         }
 
+        // Validace emailu, stačí vrátit jestli je validní nebo ne, takže proto vrací bool, kontroluje i unikátnost v systému
         public static bool isValidEmail(string email)
         {
-            // check email format
             if (string.IsNullOrWhiteSpace(email))
                 return false;
 
-            // Regular expression for email
             string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
             Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
             if(!regex.IsMatch(email))
@@ -605,7 +610,7 @@ namespace LibrarySystem
                 return false;
             }
 
-            // check if email is unique
+
             if (!DatabaseHelper.isEmailUnique(email))
             {
                 return false;
@@ -614,18 +619,19 @@ namespace LibrarySystem
             return true;
         }
 
+        // Validace jména
         public static bool IsValidName(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 return false;
 
-            // Regular expression to check string length and ensure it contains only letters
             string pattern = @"^[a-zA-Z]{2,21}$";
             Regex regex = new Regex(pattern);
 
             return regex.IsMatch(name);
         }
 
+        // validace názvu knihy (tam může být mezera narozdíl od jména člověka)
         public static bool IsValidBookName(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -633,13 +639,10 @@ namespace LibrarySystem
                 return false;
             }
 
-            // Regular expression to check string length and ensure it contains only letters and whitespace
-            // The pattern allows spaces but not at the beginning or end of the string
             string pattern = @"^[a-zA-Z]+(?:[ ][a-zA-Z]+)*$";
 
             Regex regex = new Regex(pattern);
 
-            // Check if the string matches the pattern and its length is within the specified range
             return regex.IsMatch(name) && name.Length >= 2 && name.Length <= 21;
         }
     }

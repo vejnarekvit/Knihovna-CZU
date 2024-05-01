@@ -11,7 +11,14 @@ namespace LibrarySystem
 {
     public static class DatabaseHelper
     {
+        /*
+        tato třída je taková univerzální třída, která pracuje s databází
+        */
+
+        // connection na DB (naleznete přímo v projektu ve složce data)
         private static string connection_string = @"Data Source=..\..\..\data\library.db";
+
+        // metoda na tvorbu souboru typu .db, pokud ještě neexistuje a rovnou i vytvoří všechny tabulky a přidá example data
         public static void InitializeDatabase()
         {
             if (!File.Exists(@"..\..\..\data\library.db"))
@@ -47,6 +54,7 @@ namespace LibrarySystem
             }
         }
 
+        // SQL pro vytvoření tabulky knih
         static void CreateBooksTable(SQLiteConnection connection)
         {
             string create_table_book = @"CREATE TABLE IF NOT EXISTS books (
@@ -61,6 +69,7 @@ namespace LibrarySystem
             ExecuteSql(connection, create_table_book);
         }
 
+        // SQL pro vytvoření tabulky uživatelů
         static void CreateUsersTable(SQLiteConnection connection)
         {
             string create_table_users = @"CREATE TABLE IF NOT EXISTS users (
@@ -75,6 +84,7 @@ namespace LibrarySystem
             ExecuteSql(connection, create_table_users);
         }
 
+        // SQL pro vytvoření tabulky knihy uživatelů (tabulka slouží k propojení uživatele a knihy - půjčení)
         static void CreateUserBooksTable(SQLiteConnection connection)
         {
             string create_table_user_books = @"CREATE TABLE IF NOT EXISTS user_books (
@@ -88,13 +98,27 @@ namespace LibrarySystem
             ExecuteSql(connection, create_table_user_books);
         }
 
+        // tato metoda executuje (spouští) sql commandy
+        static void ExecuteSql(SQLiteConnection connection, string sql)
+        {
+            using (var command = new SQLiteCommand(sql, connection))
+            {
+                command.ExecuteNonQuery();
+            }
+        }
+
+
+        // metoda, díky které dostanu connection i mimo tuto třídu, rovnou otevře connection
         public static SQLiteConnection GetConnection()
         {
             var connection = new SQLiteConnection(connection_string);
-            connection.Open();  // Optionally open the connection before returning, depending on how you manage connections
+            connection.Open();
             return connection;
         }
 
+
+        /* ZDE ZAČÍNAJÍ METODY, KTERÉ UŽ DĚLAJÍ ÚKONY NA ZÁKLADĚ UŽIVATELE, KTERÝ SI JE VYŽÁDAL */
+        // Metoda získá všechny knihy (klidně i půjčené)
         public static List<Book> GetAllBooks()
         {
             var books = new List<Book>();
@@ -116,7 +140,6 @@ namespace LibrarySystem
                                 reader["genre"]?.ToString() ?? string.Empty,
                                 Convert.ToInt32(reader["book_release"])
                             );
-                            // Set the ID property of the book
                             if (reader["id"] != DBNull.Value)
                             {
                                 book.ID = Convert.ToInt32(reader["id"].ToString());
@@ -129,10 +152,11 @@ namespace LibrarySystem
             return books;
         }
 
+
+        // získá všechny knihy, které ještě nejsou půjčené
         public static List<Book> GetAllAvailableBooks()
         {
             var books = new List<Book>();
-            // Adjusted SQL to only fetch books that are not currently borrowed
             string sql = @"
     SELECT b.authors_first_name, b.authors_last_name, b.book_name, b.genre, b.book_release, b.id
     FROM books b
@@ -155,7 +179,6 @@ namespace LibrarySystem
                                 reader["genre"]?.ToString() ?? string.Empty,
                                 Convert.ToInt32(reader["book_release"])
                             );
-                            // Set the ID property of the book
                             if (reader["id"] != DBNull.Value)
                             {
                                 book.ID = Convert.ToInt32(reader["id"].ToString());
@@ -169,7 +192,7 @@ namespace LibrarySystem
         }
 
 
-
+        // získá všechny uživatele (návratová hodnota List person)
         public static List<Person> GetAllUsers()
         {
             var people = new List<Person>();
@@ -198,6 +221,7 @@ namespace LibrarySystem
             return people;
         }
 
+        // získá pouze customers, tedy uživatele se statusem 0
         public static List<Person> GetAllCustomers()
         {
             var people = new List<Person>();
@@ -218,7 +242,6 @@ namespace LibrarySystem
                                 reader["status"] != DBNull.Value ? Convert.ToInt32(reader["status"]) : 0,
                                 reader["email"]?.ToString() ?? string.Empty
                             );
-                            // Set the ID property of the book
                             if (reader["id"] != DBNull.Value)
                             {
                                 person.ID = Convert.ToInt32(reader["id"].ToString());
@@ -231,14 +254,7 @@ namespace LibrarySystem
             return people;
         }
 
-        static void ExecuteSql(SQLiteConnection connection, string sql)
-        {
-            using (var command = new SQLiteCommand(sql, connection))
-            {
-                command.ExecuteNonQuery();
-            }
-        }
-
+        // hash hesla, potom se uloží do DB
         public static string HashPassword(string password)
         {
             using (var sha256 = SHA256.Create())
@@ -248,6 +264,7 @@ namespace LibrarySystem
             }
         }
 
+        // metzoda pro kontrolu, zdali je email v databázi (moc se mi líbí, že se dá použít reader.HasRows)
         public static bool isEmailUnique(string email)
         {
             bool unique = false;
@@ -271,20 +288,17 @@ namespace LibrarySystem
             return unique;
         }
 
+        // metoda na půjčení knihy, vytvoří se záznam do user_books, kde se přídá ID usera a ID knihy
         public static void BorrowBook(int userId, int bookId)
         {
-            // SQL to insert a record into user_books
             string sql = @"INSERT INTO user_books (user_id, book_id) VALUES (@UserId, @BookId);";
             using (var connection = new SQLiteConnection(connection_string))
             {
                 connection.Open();
                 using (var command = new SQLiteCommand(sql, connection))
                 {
-                    // Add parameters to prevent SQL injection
                     command.Parameters.AddWithValue("@UserId", userId);
                     command.Parameters.AddWithValue("@BookId", bookId);
-
-                    // Execute the command
                     command.ExecuteNonQuery();
                 }
                 connection.Close();
@@ -292,21 +306,19 @@ namespace LibrarySystem
             Console.WriteLine("Book borrowed successfully.");
         }
 
+        // Metoda na vracení knihy do knihovny, smaže záznam o půjčení z user_books
         public static void ReturnBook(int userId, int bookId)
         {
-            // SQL to delete a record from user_books
             string sql = @"DELETE FROM user_books WHERE user_id = @UserId AND book_id = @BookId;";
             using (var connection = new SQLiteConnection(connection_string))
             {
                 connection.Open();
                 using (var command = new SQLiteCommand(sql, connection))
                 {
-                    // Add parameters to prevent SQL injection
                     command.Parameters.AddWithValue("@UserId", userId);
                     command.Parameters.AddWithValue("@BookId", bookId);
-
-                    // Execute the command
                     int affectedRows = command.ExecuteNonQuery();
+                    // radši kontrola, jestli se opravdu něco smazalo
                     if (affectedRows > 0)
                     {
                         Console.WriteLine("Book returned successfully.");
@@ -320,19 +332,18 @@ namespace LibrarySystem
             }
         }
 
+
+        // Metoda na smazání knihy (jde o odebrání z knihovny)
         public static void DeleteBook(int bookId)
         {
-            // SQL to delete a record from user_books
             string sql = @"DELETE FROM books WHERE id = @BookId;";
             using (var connection = new SQLiteConnection(connection_string))
             {
                 connection.Open();
                 using (var command = new SQLiteCommand(sql, connection))
                 {
-                    // Add parameters to prevent SQL injection
                     command.Parameters.AddWithValue("@BookId", bookId);
-
-                    // Execute the command
+                    // radši kontrola, jestli se opravdu něco smazalo
                     int affectedRows = command.ExecuteNonQuery();
                     if (affectedRows > 0)
                     {
@@ -347,6 +358,8 @@ namespace LibrarySystem
             }
         }
 
+
+        // Metoda na získání půjčených knih dle ID uživatele (vrací rovnou list knih)
         public static List<Book> GetBorrowedBooks(int userId)
         {
             List<Book> borrowedBooks = new List<Book>();
@@ -362,7 +375,6 @@ namespace LibrarySystem
                 {
                     command.Parameters.AddWithValue("@UserId", userId);
 
-                    // Open the connection if it's not already open
                     if (connection.State != System.Data.ConnectionState.Open)
                         connection.Open();
 
@@ -378,7 +390,6 @@ namespace LibrarySystem
                                 Convert.ToInt32(reader["book_release"])
                             );
 
-                            // Assuming there's a property ID in the Book class with a setter
                             book.ID = Convert.ToInt32(reader["id"]);
                             borrowedBooks.Add(book);
                         }
@@ -389,19 +400,16 @@ namespace LibrarySystem
             return borrowedBooks;
         }
 
+        // Smazání uživatele z databáze podle ID uživatele
         public static void DeleteUser(int userId)
         {
-            // SQL to insert a record into user_books
             string sql = @"DELETE FROM users WHERE id = @UserId;";
             using (var connection = new SQLiteConnection(connection_string))
             {
                 connection.Open();
                 using (var command = new SQLiteCommand(sql, connection))
                 {
-                    // Add parameters to prevent SQL injection
                     command.Parameters.AddWithValue("@UserId", userId);
-
-                    // Execute the command
                     command.ExecuteNonQuery();
                 }
                 connection.Close();
@@ -409,6 +417,8 @@ namespace LibrarySystem
             Console.WriteLine("Profile deleted successfuly.");
         }
 
+
+        // Update statusu uživatele, toto může provést pouze knihovník. Tímto způsobem je možnost udělat ze zákazníka knihovníka
         public static void UpdateUserStatus(int userId, int status)
         {
             string sql = "UPDATE users SET status = @Status WHERE id = @UserId;";
@@ -418,11 +428,8 @@ namespace LibrarySystem
                 connection.Open();
                 using (var command = new SQLiteCommand(sql, connection))
                 {
-                    // Add parameters to prevent SQL injection
                     command.Parameters.AddWithValue("@UserId", userId);
                     command.Parameters.AddWithValue("@Status", status);
-
-                    // Execute the command
                     command.ExecuteNonQuery();
                 }
                 connection.Close();
