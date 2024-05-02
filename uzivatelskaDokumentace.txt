@@ -1,0 +1,10 @@
+Toto je taková mini uživatelská dokumentace, která vysvětlí, k čemu LibrarySystem vůbec je.
+
+Zaprvé, jednotlivé možnosti uživatele závisí na jeho statusu. (customer nebo librarian).
+
+USECASE
+ 1) auth() - vždycky to chce login, je to tam kvůli tomu, abych rozpoznal, jaky status ma uživatel (můžeme provést registraci nebo login)
+ 2) podle statusu
+    - CustomerActions() - půjčení knihy, vrácení knihy, zobrazení profilu, smazání profilu
+    - LibrarianActions() - přidání knihy, odebrání knihy, změna statusu uživatele, zobrazení dostupných (nepůjčených) knih
+ 3) Kód končí ve chvíli, kdy v menu vybereme "e" nebo když vymažeme profil
